@@ -19,6 +19,11 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+# Spring Boot Config (IMPORTANT)
+application.yml
+application-*.yml
+!application-example.yml
+
 # STS
 .apt_generated
 .classpath

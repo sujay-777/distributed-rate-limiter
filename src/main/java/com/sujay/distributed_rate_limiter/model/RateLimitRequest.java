@@ -1,28 +1,29 @@
 package com.sujay.distributed_rate_limiter.model;
 
-import jdk.jfr.DataAmount;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sujay.distributed_rate_limiter.enums.Algorithm;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
+import lombok.Value;
 
 
+@Value
+@Builder
 public class RateLimitRequest {
-    private final String clientKey;
-    private final int limit;
-    private final int windowSeconds;
 
-    public RateLimitRequest(String clientKey, int limit, int windowSeconds) {
-        this.clientKey = clientKey;
-        this.limit = limit;
-        this.windowSeconds = windowSeconds;
-    }
 
-    public String getClientKey() {
-        return clientKey;
-    }
+    @NotBlank(message = "clientKey is required")
+    @JsonProperty("clientKey")
+    String clientKey;
 
-    public int getLimit() {
-        return limit;
-    }
+    @NotBlank(message = "endpoint is required")
+    String endpoint;
 
-    public int getWindowSeconds() {
-        return windowSeconds;
+    Algorithm algorithm;
+
+    Integer customMaxRequests;
+
+    public String buildRedisKey(Algorithm resolvedAlgorithm) {
+        return String.format("%s::%s::%s", clientKey, endpoint, resolvedAlgorithm.name());
     }
 }

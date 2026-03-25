@@ -1,21 +1,55 @@
 package com.sujay.distributed_rate_limiter.model;
 
-public class RateLimitResponse {
-    private final boolean allowed;
-    private final int remaining;
-    private final long resetAfterSeconds;
-    private final String reason;
+import com.sujay.distributed_rate_limiter.enums.Algorithm;
+import lombok.Builder;
+import lombok.Value;
 
-    public RateLimitResponse(boolean allowed, int remaining,
-                             long resetAfterSeconds, String reason) {
-        this.allowed = allowed;
-        this.remaining = remaining;
-        this.resetAfterSeconds = resetAfterSeconds;
-        this.reason = reason;
+import java.time.Instant;
+
+@Value
+@Builder
+public class RateLimitResponse {
+
+         boolean allowed;
+
+         long remainingRequests;
+
+         long limit;
+
+         long resetAtEpochMs;
+
+         Long retryAfterMs;
+
+         Algorithm algorithm;
+
+         Instant decidedAt;
+
+    public static RateLimitResponse allowed(long remaining, long limit,
+                                            long resetAtMs, Algorithm algorithm) {
+        return RateLimitResponse.builder()
+                .allowed(true)
+                .remainingRequests(remaining)
+                .limit(limit)
+                .resetAtEpochMs(resetAtMs)
+                .retryAfterMs(null)            // not needed when allowed
+                .algorithm(algorithm)
+                .decidedAt(Instant.now())
+                .build();
     }
 
-    public boolean isAllowed() { return allowed; }
-    public int getRemaining() { return remaining; }
-    public long getResetAfterSeconds() { return resetAfterSeconds; }
-    public String getReason() { return reason; }
+    public static RateLimitResponse denied(long limit, long retryAfterMs,
+                                           long resetAtMs, Algorithm algorithm) {
+        return RateLimitResponse.builder()
+                .allowed(false)
+                .remainingRequests(0)
+                .limit(limit)
+                .resetAtEpochMs(resetAtMs)
+                .retryAfterMs(retryAfterMs)
+                .algorithm(algorithm)
+                .decidedAt(Instant.now())
+                .build();
+    }
+
+
+
 }
