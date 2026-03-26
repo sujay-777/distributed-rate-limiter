@@ -41,6 +41,4 @@ public class RateLimiterProperties {
         private int capacity = 10;
         private double refillRate = 2.0;  // tokens per second
     }
-
-
 }
