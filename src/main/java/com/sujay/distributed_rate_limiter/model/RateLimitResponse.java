@@ -24,6 +24,7 @@ public class RateLimitResponse {
 
          Instant decidedAt;
 
+         // if the user is allowed to do the request
     public static RateLimitResponse allowed(long remaining, long limit,
                                             long resetAtMs, Algorithm algorithm) {
         return RateLimitResponse.builder()

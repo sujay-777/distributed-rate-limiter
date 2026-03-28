@@ -21,6 +21,7 @@ public class RateLimitRequest {
 
     Algorithm algorithm;
 
+    // this is for the premium users or for the custom purposes
     Integer customMaxRequests;
 
     public String buildRedisKey(Algorithm resolvedAlgorithm) {

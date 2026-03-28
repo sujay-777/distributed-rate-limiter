@@ -8,7 +8,7 @@ import org.apache.kafka.common.metrics.stats.TokenBucket;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-@Data
+@Data                                              // Lombok: generates getters, setters, toString
 @Component
 @ConfigurationProperties(prefix = "rate-limiter")
 public class RateLimiterProperties {
@@ -18,16 +18,16 @@ public class RateLimiterProperties {
     private Algorithms algorithms = new Algorithms();
 
     @Data
-    private static class Algorithms{
+    public static class Algorithms {
         private FixedWindow fixedWindow = new FixedWindow();
         private SlidingWindow slidingWindow = new SlidingWindow();
         private TokenBucket tokenBucket = new TokenBucket();
     }
 
     @Data
-    private static class FixedWindow{
-        private Integer maxRequests = 100;
-        private Integer windowSizeSeconds = 60;
+    public static class FixedWindow {
+        private int maxRequests = 100;
+        private int windowSizeSeconds = 60;
     }
 
     @Data
