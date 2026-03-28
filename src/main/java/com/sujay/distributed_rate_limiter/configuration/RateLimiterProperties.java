@@ -1,7 +1,6 @@
 package com.sujay.distributed_rate_limiter.configuration;
 
 
-import com.sujay.distributed_rate_limiter.algorithm.FixedWindowAlgorithm;
 import io.prometheus.metrics.core.metrics.SlidingWindow;
 import lombok.Data;
 import org.apache.kafka.common.metrics.stats.TokenBucket;

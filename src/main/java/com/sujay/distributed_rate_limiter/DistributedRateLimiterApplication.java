@@ -1,7 +1,5 @@
 package com.sujay.distributed_rate_limiter;
 
-import com.sujay.distributed_rate_limiter.algorithm.FixedWindowAlgorithm;
-import com.sujay.distributed_rate_limiter.algorithm.RateLimiterAlgorithm;
 import com.sujay.distributed_rate_limiter.configuration.TestingYML;
 import com.sujay.distributed_rate_limiter.model.RateLimitRequest;
 import com.sujay.distributed_rate_limiter.model.RateLimitResponse;
