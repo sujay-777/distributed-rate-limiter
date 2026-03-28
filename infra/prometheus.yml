@@ -1,0 +1,12 @@
+
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'rate-limiter'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['host.docker.internal:8080']
+      # host.docker.internal = your laptop's localhost, from inside Docker
+      # Use this when the Spring app runs locally (mvn spring-boot:run)
+      # and only Redis/Prometheus/Grafana are in Docker

@@ -11,7 +11,6 @@ import lombok.Value;
 @Builder
 public class RateLimitRequest {
 
-
     @NotBlank(message = "clientKey is required")
     @JsonProperty("clientKey")
     String clientKey;

@@ -5,7 +5,7 @@ import com.sujay.distributed_rate_limiter.model.RateLimitRequest;
 import com.sujay.distributed_rate_limiter.model.RateLimitResponse;
 import org.springframework.stereotype.Service;
 
-// this wasn't there, i just added it
+// this wasn't there, i just added the service annotation
 @Service
 public interface RateLimiterService {
 
