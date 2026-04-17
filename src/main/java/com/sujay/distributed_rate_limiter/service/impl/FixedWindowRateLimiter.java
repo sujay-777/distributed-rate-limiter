@@ -20,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FixedWindowRateLimiter implements RateLimiterService {
 
+//     all the beans that are created in the RedisConfig class are injected here
     private final RedisTemplate<String, String> redisTemplate;
     private final DefaultRedisScript<List> fixedWindowScript;
     private final RateLimiterProperties properties;
@@ -36,7 +37,9 @@ public class FixedWindowRateLimiter implements RateLimiterService {
         String key = request.buildRedisKey(Algorithm.FIXED_WINDOW);
 
         int maxRequests = resolveMaxRequests(request);
-        int windowSecs = properties.getAlgorithms().getFixedWindow().getWindowSizeSeconds();
+        int windowSecs = (request.getCustomWindowSeconds() != null && request.getCustomWindowSeconds() > 0)
+                ? request.getCustomWindowSeconds()
+                : properties.getAlgorithms().getFixedWindow().getWindowSizeSeconds();
 
         try{
             long start = System.currentTimeMillis();
@@ -58,6 +61,7 @@ public class FixedWindowRateLimiter implements RateLimiterService {
         }
     }
 
+//     if there is a custom request then send that else send the normal max_request for all the users
     protected int resolveMaxRequests(RateLimitRequest request) {
         // Request-level override → wins. Useful for premium users.
         if (request.getCustomMaxRequests() != null && request.getCustomMaxRequests() > 0) {
@@ -123,13 +127,5 @@ public class FixedWindowRateLimiter implements RateLimiterService {
                 "algorithm", algorithm.name()
         ).record(durationMs, java.util.concurrent.TimeUnit.MILLISECONDS);
     }
-
-
-
-
-
-
-
-
 
 }

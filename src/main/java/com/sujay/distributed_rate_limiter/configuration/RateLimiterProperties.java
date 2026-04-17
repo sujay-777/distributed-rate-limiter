@@ -1,20 +1,25 @@
 package com.sujay.distributed_rate_limiter.configuration;
-
-
-import io.prometheus.metrics.core.metrics.SlidingWindow;
 import lombok.Data;
-import org.apache.kafka.common.metrics.stats.TokenBucket;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-@Data                                              // Lombok: generates getters, setters, toString
+import java.util.HashMap;
+import java.util.Map;
+
+@Data
 @Component
 @ConfigurationProperties(prefix = "rate-limiter")
 public class RateLimiterProperties {
 
     private String defaultAlgorithm = "TOKEN_BUCKET";
     private String redisFailureStrategy = "FAIL_OPEN";
+
     private Algorithms algorithms = new Algorithms();
+
+    // ✅ Tiers config
+    private Map<String, Tier> tiers = new HashMap<>();
+
+    // ================= ALGORITHMS =================
 
     @Data
     public static class Algorithms {
@@ -38,6 +43,18 @@ public class RateLimiterProperties {
     @Data
     public static class TokenBucket {
         private int capacity = 10;
-        private double refillRate = 2.0;  // tokens per second
+        private double refillRate = 2.0;
+    }
+
+    @Data
+    public static class Tier {
+        private int maxRequests;
+        private int windowSizeSeconds;
+        private String algorithm;
+    }
+
+
+    public Tier getTier(String tierName) {
+        return tiers.getOrDefault(tierName, null);
     }
 }

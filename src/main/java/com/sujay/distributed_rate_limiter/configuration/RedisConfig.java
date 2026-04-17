@@ -18,7 +18,6 @@ public class RedisConfig {
     public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory factory) {
         RedisTemplate<String, String> template = new RedisTemplate<>();
         template.setConnectionFactory(factory);
-
         // we are creating StringRedis instead of the JdkSerializationRedisSerializer
         // and we are telling that use the string for all the operations basically the storage
         StringRedisSerializer s = new StringRedisSerializer();
@@ -54,7 +53,5 @@ public class RedisConfig {
         script.setResultType(List.class);
         return script;
     }
-
-
 
 }

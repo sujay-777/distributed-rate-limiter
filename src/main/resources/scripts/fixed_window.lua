@@ -2,6 +2,7 @@ local key          = KEYS[1]
 local max_requests = tonumber(ARGV[1])
 local window_secs  = tonumber(ARGV[2])
 
+-- we first increment the counter , if fresh then it set to 1(counter)
 local current_count = redis.call('INCR', key)
 
 -- this means that if the request is fresh/  for the first time
@@ -21,6 +22,7 @@ end
 if current_count <= max_requests then
 -- Allow. remaining = how many more they can make after this one.
 -- remaining tells me the no. of requests left here and the TTL tells me the remaining time
+--	1 means allowed, remaining requests and the remaining time
 	local remaining = max_requests - current_count
 	return { 1, remaining, ttl_seconds * 1000 }
 else

@@ -23,6 +23,9 @@ public class RateLimitRequest {
     // this is for the premium users or for the custom purposes
     Integer customMaxRequests;
 
+    // NEW — override window size from @RateLimit annotation
+    Integer customWindowSeconds;
+
     public String buildRedisKey(Algorithm resolvedAlgorithm) {
         return String.format("%s::%s::%s", clientKey, endpoint, resolvedAlgorithm.name());
     }
