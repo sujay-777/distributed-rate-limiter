@@ -1,8 +1,17 @@
+# infra/grafana/datasources/prometheus.yml
 apiVersion: 1
 
 datasources:
   - name: Prometheus
     type: prometheus
+    # 'proxy' means Grafana server makes the request to Prometheus.
+    # Alternative is 'direct' where your browser calls Prometheus.
+    # 'proxy' is correct for Docker setups.
+    access: proxy
+    # 'prometheus' here is the Docker Compose service name.
+    # Docker's internal DNS resolves it to the container's IP.
     url: http://prometheus:9090
     isDefault: true
-    access: proxy
+    editable: false       # prevent accidental changes via UI
+    jsonData:
+      timeInterval: "15s"   # matches prometheus.yml scrape_interval

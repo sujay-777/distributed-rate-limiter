@@ -25,6 +25,7 @@ services:
       - --config.file=/etc/prometheus/prometheus.yml
       - --storage.tsdb.retention.time=7d
 
+  # UPDATED grafana service in docker-compose.yml
   grafana:
     image: grafana/grafana:latest
     container_name: ratelimiter-grafana
@@ -36,6 +37,8 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana
       - ./grafana/datasources:/etc/grafana/provisioning/datasources
+      # NEW — mount the dashboards directory
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
     depends_on:
       - prometheus
 

@@ -1,0 +1,11 @@
+apiVersion: 1
+
+providers:
+  - name: "rate-limiter-dashboards"
+    orgId: 1
+    type: file
+    disableDeletion: false    # allow manual edits via UI
+    updateIntervalSeconds: 30  # re-reads files every 30s — pick up dashboard changes
+    allowUiUpdates: true
+    options:
+      path: /etc/grafana/provisioning/dashboards
